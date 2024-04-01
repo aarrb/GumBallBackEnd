@@ -14,6 +14,8 @@ public class GumballMachine implements IGumballMachine {
         this.state = state;
         this.count = count;
     }
+    //test
+
 
     @Override
     public TransitionResult insertQuarter() {
@@ -35,14 +37,38 @@ public class GumballMachine implements IGumballMachine {
 
     @Override
     public TransitionResult ejectQuarter() {
-        //TODO
-        return null;
+        boolean succeeded = false;
+        String message = "";
+        if (state.equalsIgnoreCase(HAS_QUARTER)) {
+            state = NO_QUARTER;
+            message = "Quarter returned";
+            succeeded = true;
+        } else {
+            message = "You haven't inserted a quarter";
+        }
+        return new TransitionResult(succeeded, message, state, count);
     }
 
     @Override
     public TransitionResult turnCrank() {
-        //TODO
-        return null;
+        boolean succeeded = false;
+        String message = "";
+        if (state.equalsIgnoreCase(HAS_QUARTER)) {
+            if (count > 0) {
+                releaseBall(); // This should decrement the count by 1
+                message = "Here's your gumball";
+                state = (count > 0) ? NO_QUARTER : SOLD_OUT;
+                succeeded = true;
+            } else {
+                message = "No gumball dispensed";
+                state = SOLD_OUT;
+            }
+        } else if (state.equalsIgnoreCase(NO_QUARTER)) {
+            message = "You need to insert a quarter first";
+        } else if (state.equalsIgnoreCase(SOLD_OUT)) {
+            message = "The machine is sold out";
+        }
+        return new TransitionResult(succeeded, message, state, count);
     }
 
     @Override
