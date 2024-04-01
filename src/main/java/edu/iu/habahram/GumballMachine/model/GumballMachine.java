@@ -14,7 +14,7 @@ public class GumballMachine implements IGumballMachine {
         this.state = state;
         this.count = count;
     }
-    //test
+
 
 
     @Override
