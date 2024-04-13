@@ -13,6 +13,9 @@ public class GumballService implements IGumballService{
     public GumballService(IGumballRepository gumballRepository) {
         this.gumballRepository = gumballRepository;
     }
+
+
+
     @Override
     public TransitionResult insertQuarter(String id) throws IOException {
         GumballMachineRecord record = gumballRepository.findById(id);
@@ -27,9 +30,6 @@ public class GumballService implements IGumballService{
     }
 
 
-
-
-
     @Override
     public TransitionResult ejectQuarter(String id) throws IOException {
         GumballMachineRecord record = gumballRepository.findById(id);
@@ -42,18 +42,7 @@ public class GumballService implements IGumballService{
         }
         return result;
     }
-    @Override
-    public TransitionResult turnCrank(String id) throws IOException {
-        GumballMachineRecord record = gumballRepository.findById(id);
-        IGumballMachine machine = new GumballMachine(record.getId(), record.getState(), record.getCount());
-        TransitionResult result = machine.ejectQuarter();
-        if(result.succeeded()) {
-            record.setState(result.stateAfter());
-            record.setCount(result.countAfter());
-            save(record);
-        }
-        return result;
-    }
+
     @Override
     public TransitionResult performAction(String id, Action action) throws IOException {
         GumballMachineRecord record = gumballRepository.findById(id);
@@ -77,6 +66,17 @@ public class GumballService implements IGumballService{
         }
         return result;
     }
+
+    @Override
+    public TransitionResult turnCrank(String id) throws IOException {
+        return null;
+    }
+
+    @Override
+    public String save(GumballMachineRecord gumballMachineRecord) throws IOException {
+        return gumballRepository.save(gumballMachineRecord);
+    }
+
     @Override
     public List<GumballMachineRecord> findAll() throws IOException {
         return gumballRepository.findAll();
@@ -85,8 +85,5 @@ public class GumballService implements IGumballService{
     public GumballMachineRecord findById(String id) throws IOException {
         return gumballRepository.findById(id);
     }
-    @Override
-    public String save(GumballMachineRecord gumballMachineRecord) throws IOException {
-        return gumballRepository.save(gumballMachineRecord);
-    }
+
 }

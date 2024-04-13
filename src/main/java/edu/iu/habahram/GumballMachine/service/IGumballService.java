@@ -18,9 +18,6 @@ public interface IGumballService {
     List<GumballMachineRecord> findAll() throws IOException;
 
 
-
-
-
     GumballMachineRecord findById(String id) throws IOException;
     TransitionResult ejectQuarter(String id) throws IOException;
 
