@@ -1,7 +1,5 @@
 package edu.iu.habahram.GumballMachine.model;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 public final class GumballMachineRecord {
@@ -79,5 +77,4 @@ public final class GumballMachineRecord {
                 "state=" + state + ", " +
                 "count=" + count + ']';
     }
-
 }
